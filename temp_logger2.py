@@ -62,6 +62,13 @@ def log_to_csv(filename, timestamp, temperature_data):
     except Exception as e:
         print(f"Error writing to CSV: {e}")
 
+def print_to_terminal(timestamp, temperature_data):
+    """Print the data in a structured format similar to the old script."""
+    print(f"\n{timestamp}")  # Print timestamp on a separate line
+    for sensor, value in temperature_data.items():
+        print(f"{sensor}: {value}")
+    print("")  # Add a blank line for readability
+
 def main():
     # Parse command-line arguments
     args = parse_arguments()
@@ -99,7 +106,7 @@ def main():
                     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]  # Millisecond precision
                     temperature_data = extract_temperatures(response_lines)
 
-                    print(f"[{timestamp}] {temperature_data}")  # Print structured data to terminal
+                    print_to_terminal(timestamp, temperature_data)  # Print structured data to terminal
                     log_to_csv(csv_filename, timestamp, temperature_data)  # Log to specified CSV file
 
                 # Wait 1 second before sending the next command
